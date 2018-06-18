@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: syncthing
+  labels:
+    run: syncthing
+spec:
+  ports:
+  - port: 80
+    name: syncthing
+  selector:
+    run: syncthing
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: syncthing
+  labels:
+    run: syncthing
+spec:
+  selector:
+    matchLabels:
+      run: syncthing
+  serviceName: "syncthing"
+  template:
+    metadata:
+      generateName: syncthing-prod
+      labels:
+        run: syncthing
+    spec:
+#      - name: "cambia privilegios"
+#        imagePullPolicy: "IfNotPresent"
+#        command:  ["chamo", "777", "/var/lib/mysql/lost+found"]
+#        volumeMounts:
+#        - name: syncthing-data
+#          mountPath: "/mnt"
+      containers:
+        - name: syncthing-prod
+          image: linuxserver/syncthing
+          imagePullPolicy: Always
+          ports:
+            - name: syncthing
+              containerPort: 8384
+          volumeMounts:
+            - mountPath: "/mnt"  #"/config/Sync"
+              name: syncthing-data
+      volumes:
+  volumeClaimTemplates:
+   - metadata:
+       name: syncthing-data
+     spec:
+       accessModes: [ "ReadWriteOnce" ]
+       storageClassName: "openebs-standalone"
+       resources:
+         requests:
+           storage: 1Gi
