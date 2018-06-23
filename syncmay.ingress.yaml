@@ -6,18 +6,17 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/lua-resty-waf: "active"
     nginx.ingress.kubernetes.io/rewrite-target: /
-#    certmanager.k8s.io/acme-challenge-type: http01
-#    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-challenge-type: http01
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
   name: web
 spec:
   rules:
-  - host: mauricioryan-web.kube.um.edu.ar
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: web
-          servicePort: 8080
+  # - http:
+  #     paths:
+  #     - path: /
+  #       backend:
+  #         serviceName: web
+  #         servicePort: 8080
   - host: mauricioryan-syncthing.kube.um.edu.ar
     http:
       paths:
@@ -26,7 +25,8 @@ spec:
           serviceName: syncthing
           servicePort: 80
 
-#  tls:
-#  - hosts:
-#    - <USER>.kube.um.edu.ar
-#    secretName: web-cert
+  tls:
+  - hosts:
+    #- mauricioryan-web.kube.um.edu.ar
+    - mauricioryan-syncthing.kube.um.edu.ar
+    secretName: mauricioryan-cert

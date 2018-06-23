@@ -1,0 +1,98 @@
+apiVersion: v1
+items:
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      certmanager.k8s.io/acme-challenge-type: http01
+      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"certmanager.k8s.io/acme-challenge-type":"http01","certmanager.k8s.io/cluster-issuer":"letsencrypt-prod"},"labels":{"name":"oauth2-proxy-ingress-oauth"},"name":"oauth2-proxy-ingress-oauth","namespace":"jjo"},"spec":{"rules":[{"host":"jjo-st.kube.um.edu.ar","http":{"paths":[{"backend":{"serviceName":"oauth2-proxy-svc","servicePort":4180},"path":"/oauth2"}]}}],"tls":[{"hosts":["jjo-st.kube.um.edu.ar"],"secretName":"jjo-st-kube-um"}]}}
+    creationTimestamp: 2018-06-16T15:14:18Z
+    generation: 1
+    labels:
+      name: oauth2-proxy-ingress-oauth
+    name: oauth2-proxy-ingress-oauth
+    namespace: jjo
+    resourceVersion: "3492640"
+    selfLink: /apis/extensions/v1beta1/namespaces/jjo/ingresses/oauth2-proxy-ingress-oauth
+    uid: f0ac6fd8-7177-11e8-86bc-fa163ea11bcd
+  spec:
+    rules:
+    - host: jjo-st.kube.um.edu.ar
+      http:
+        paths:
+        - backend:
+            serviceName: oauth2-proxy-svc
+            servicePort: 4180
+          path: /oauth2
+    tls:
+    - hosts:
+      - jjo-st.kube.um.edu.ar
+      secretName: jjo-st-kube-um
+  status:
+    loadBalancer:
+      ingress:
+      - {}
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/auth-signin":"https://$host/oauth2/start","nginx.ingress.kubernetes.io/auth-url":"https://$host/oauth2/auth","nginx.ingress.kubernetes.io/lua-resty-waf":"active"},"labels":{"name":"syncthing"},"name":"syncthing","namespace":"jjo"},"spec":{"rules":[{"host":"jjo-st.kube.um.edu.ar","http":{"paths":[{"backend":{"serviceName":"syncthing","servicePort":8384},"path":"/"}]}}],"tls":[{"hosts":["jjo-st.kube.um.edu.ar"],"secretName":"jjo-st-kube-um"}]}}
+    creationTimestamp: 2018-06-15T23:32:27Z
+    generation: 6
+    labels:
+      name: syncthing
+    name: syncthing
+    namespace: jjo
+    resourceVersion: "4178188"
+    selfLink: /apis/extensions/v1beta1/namespaces/jjo/ingresses/syncthing
+    uid: 5d88fb03-70f4-11e8-86bc-fa163ea11bcd
+  spec:
+    rules:
+    - host: pepe.kube.um.edu.ar
+      http:
+        paths:
+        - backend:
+            serviceName: syncthing
+            servicePort: 8384
+          path: /
+  status:
+    loadBalancer:
+      ingress:
+      - {}
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/lua-resty-waf":"active","nginx.ingress.kubernetes.io/rewrite-target":"/"},"labels":{"run":"web"},"name":"web","namespace":"jjo"},"spec":{"rules":[{"host":"jjo-web.kube.um.edu.ar","http":{"paths":[{"backend":{"serviceName":"web","servicePort":8080},"path":"/"}]}}]}}
+      nginx.ingress.kubernetes.io/lua-resty-waf: active
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    creationTimestamp: 2018-06-18T12:14:13Z
+    generation: 1
+    labels:
+      run: web
+    name: web
+    namespace: jjo
+    resourceVersion: "4162010"
+    selfLink: /apis/extensions/v1beta1/namespaces/jjo/ingresses/web
+    uid: 1d355ddd-72f1-11e8-86bc-fa163ea11bcd
+  spec:
+    rules:
+    - host: jjo-web.kube.um.edu.ar
+      http:
+        paths:
+        - backend:
+            serviceName: web
+            servicePort: 8080
+          path: /
+  status:
+    loadBalancer:
+      ingress:
+      - {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
