@@ -4,6 +4,14 @@ metadata:
   labels:
     run: web
   annotations:
+    #primera guia
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start
+    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
+    #en la segunda guia
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+    kubernetes.io/ingress.allow-http: "false"
+    #funciona
     nginx.ingress.kubernetes.io/lua-resty-waf: "active"
     nginx.ingress.kubernetes.io/rewrite-target: /
     certmanager.k8s.io/acme-challenge-type: http01
@@ -25,6 +33,26 @@ spec:
           serviceName: syncthing
           servicePort: 80
 
+  tls:
+  - hosts:
+    #- mauricioryan-web.kube.um.edu.ar
+    - mauricioryan-syncthing.kube.um.edu.ar
+    secretName: mauricioryan-cert
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: syncthing-oauth2-proxy
+spec:
+  rules:
+  - host: mauricioryan-syncthing.kube.um.edu.ar
+    http:
+      paths:
+      - backend:
+          serviceName: oauth
+          servicePort: 4180
+        path: /oauth2
   tls:
   - hosts:
     #- mauricioryan-web.kube.um.edu.ar

@@ -1,0 +1,1 @@
+kubectl create secret generic oauth     --from-literal=OAUTH2_PROXY_CLIENT_ID=554385548623-satn9m2fs50kgnltnt6npf9fsoc9k5um.apps.googleusercontent.com     --from-literal=OAUTH2_PROXY_CLIENT_SECRET=xiUZxmDUjPwcFd7cTlqrz0EY     --from-literal=OAUTH2_PROXY_COOKIE_SECRET=_yTJPgoN6_FmC-5o1By_8g==
